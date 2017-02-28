@@ -367,6 +367,9 @@ public class ShadeMojo
     @Parameter( defaultValue = "false" )
     private boolean consistentDates;
 
+    @Parameter( defaultValue = "false" )
+    private boolean disableJarFileVerification;
+
     /**
      * @since 1.6
      */
@@ -441,7 +444,7 @@ public class ShadeMojo
             List<ResourceTransformer> resourceTransformers = getResourceTransformers();
 
             ShadeRequest shadeRequest = shadeRequest( artifacts, outputJar, filters, relocators, resourceTransformers,
-                                                      consistentDates );
+                                                      consistentDates, disableJarFileVerification );
 
             shader.shade( shadeRequest );
 
@@ -566,7 +569,7 @@ public class ShadeMojo
 
     private ShadeRequest shadeRequest( Set<File> artifacts, File outputJar, List<Filter> filters,
                                        List<Relocator> relocators, List<ResourceTransformer> resourceTransformers,
-                                       boolean consistentDates )
+                                       boolean consistentDates, boolean disableJarFileVerification )
     {
         ShadeRequest shadeRequest = new ShadeRequest();
         shadeRequest.setJars( artifacts );
@@ -575,6 +578,7 @@ public class ShadeMojo
         shadeRequest.setRelocators( relocators );
         shadeRequest.setResourceTransformers( resourceTransformers );
         shadeRequest.setConsistentDates( consistentDates );
+        shadeRequest.setDisableJarFileVerification( disableJarFileVerification );
         return shadeRequest;
     }
 
@@ -583,7 +587,8 @@ public class ShadeMojo
                                                     List<ResourceTransformer> resourceTransformers )
     {
         ShadeRequest shadeSourcesRequest =
-            shadeRequest( testArtifacts, testJar, filters, relocators, resourceTransformers, this.consistentDates );
+            shadeRequest( testArtifacts, testJar, filters, relocators, resourceTransformers, this.consistentDates,
+                          this.disableJarFileVerification );
         shadeSourcesRequest.setShadeSourcesContent( shadeSourcesContent );
         return shadeSourcesRequest;
     }

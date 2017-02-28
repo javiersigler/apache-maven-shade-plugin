@@ -48,6 +48,12 @@ public class ShadeRequest
 
     private boolean consistentDates;
 
+    private boolean disableJarFileVerification;
+
+    public ShadeRequest()
+    {
+    }
+
     public Set<File> getJars()
     {
         return jars;
@@ -154,5 +160,15 @@ public class ShadeRequest
     public void setConsistentDates( boolean consistentDates )
     {
         this.consistentDates = consistentDates;
+    }
+
+    public boolean isDisableJarFileVerification()
+    {
+        return disableJarFileVerification;
+    }
+
+    public void setDisableJarFileVerification( boolean disableJarFileVerification )
+    {
+        this.disableJarFileVerification = disableJarFileVerification;
     }
 }

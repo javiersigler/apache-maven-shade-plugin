@@ -158,7 +158,7 @@ public class DefaultShader
 
             List<Filter> jarFilters = getFilters( jar, shadeRequest.getFilters() );
 
-            JarFile jarFile = newJarFile( jar );
+            JarFile jarFile = newJarFile( jar, shadeRequest.isDisableJarFileVerification() );
 
             try
             {
@@ -263,7 +263,7 @@ public class DefaultShader
         {
             for ( File jar : shadeRequest.getJars() )
             {
-                JarFile jarFile = newJarFile( jar );
+                JarFile jarFile = newJarFile( jar, shadeRequest.isConsistentDates() );
                 try
                 {
                     for ( Enumeration<JarEntry> en = jarFile.entries(); en.hasMoreElements(); )
@@ -348,12 +348,12 @@ public class DefaultShader
         }
     }
 
-    private JarFile newJarFile( File jar )
+    private JarFile newJarFile( File jar, boolean disableHashVerification )
         throws IOException
     {
         try
         {
-            return new JarFile( jar );
+            return new JarFile( jar, !disableHashVerification );
         }
         catch ( ZipException zex )
         {
